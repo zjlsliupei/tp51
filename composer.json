@@ -1,6 +1,6 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "zjlsliupei/tp51",
+    "description": "simple and powerful",
     "type": "project",
     "keywords": [
         "framework",
@@ -11,13 +11,15 @@
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "liupei",
+            "email": "496005909@qq.com"
         }
     ],
     "require": {
         "php": ">=5.6.0",
-        "topthink/framework": "5.1.*"
+        "topthink/framework": "5.1.*",
+        "curl/curl": "^2.2",
+        "liupei/phptools": "^0.3.0"
     },
     "autoload": {
         "psr-4": {
