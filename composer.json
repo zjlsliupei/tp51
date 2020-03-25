@@ -19,7 +19,9 @@
         "php": ">=5.6.0",
         "topthink/framework": "5.1.*",
         "curl/curl": "^2.2",
-        "liupei/phptools": "^0.3.0"
+        "liupei/phptools": "^0.3.0",
+        "liupei/dingtalk": "^1.2",
+        "hassankhan/config": "^2.1"
     },
     "autoload": {
         "psr-4": {

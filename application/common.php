@@ -62,4 +62,87 @@ if (!function_exists("http_get")) {
     }
 }
 
+if (!function_exists("get_info_by_token")) {
+    /**
+     * 获取token绑定的值
+     * @param string $token
+     * @return mixed
+     */
+    function get_info_by_token($token = '')
+    {
+        if ($token == e_config('dev_token')) {
+            return e_config('dev_token_value');
+        }
+        return cache('token_'. $token);
+    }
+}
+
+if (!function_exists("create_token")) {
+
+    /**
+     * 创建token并缓存关联信息
+     * @param string $bindInfo 绑定的关联信息
+     * @param int $expireSecond 缓存过期秒数
+     * @return bool|mixed
+     */
+    function create_token($bindInfo = '', $expireSecond = 7200)
+    {
+        $id = md5(create_unique_id());
+        if ($id === false) {
+            return false;
+        }
+        cache('token_'. $id, $bindInfo, $expireSecond);
+        return $id;
+    }
+}
+
+
+
+if (!function_exists("create_unique_id")) {
+    /**
+     * 生成唯一id
+     * @return false|string 成功返回17位长度的字符串，失败返回false
+     */
+    function create_unique_id()
+    {
+        $uniqid = uniqid();
+        $uniqid = str_replace('.', '', $uniqid);
+        $unString = base_convert($uniqid, 16, 36);
+        // 补足17位
+        return str_pad($unString, 17, rand(1,9999999));
+    }
+}
+
+if (!function_exists("e_config")) {
+    /**
+     * 获取配置，根据环境变量获取相应环境下的配置
+     * @param string $name 变量名
+     * @return mixed
+     */
+    function e_config($name)
+    {
+        if (empty($GLOBALS['e_config'])) {
+            $GLOBALS['e_config'] = \Noodlehaus\Config::load(__DIR__ . '/../conf/conf.ini');
+        }
+        $runmode = \think\facade\Env::get("runmode", 'prod');
+        // $runmode = $GLOBALS['e_config']->get('runmode', 'prod');
+        return $GLOBALS['e_config']->get("{$runmode}.{$name}", $GLOBALS['e_config']->get($name));
+    }
+}
+
+if (!function_exists("user")) {
+    /**
+     * 获取用户信息
+     * @param string|null $key 变量名
+     * @return mixed
+     */
+    function user($key = null)
+    {
+        if (is_null($key)) {
+            return $GLOBALS['user'];
+        }
+        return isset($GLOBALS['user'][$key]) ? $GLOBALS['user'][$key] : null;
+    }
+}
+
 
